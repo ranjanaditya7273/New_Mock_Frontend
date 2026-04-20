@@ -61,21 +61,34 @@
 }
 
 .topic-item-card {
-    background: #FFEDD5; /* लाइट ऑरेंज जैसा फोटो में है */
+    background: #FFEDD5; /* लाइट ऑरेंज */
     border-radius: 25px;
     overflow: hidden;
     border: 1px solid #fed7aa;
+    transition: transform 0.2s ease;
+}
+
+/* जब क्विज़ पूरा हो जाए तो कार्ड का रंग हल्का हरा दिखेगा */
+.topic-item-card.completed-card {
+    background: #f0fdf4; 
+    border-color: #bbf7d0;
 }
 
 .ready-status-bar {
     background: #ffcc80;
-    padding: 6px 20px;
+    padding: 8px 20px;
     font-size: 12px;
     font-weight: 800;
     color: #9a3412;
     display: flex;
     align-items: center;
     gap: 6px;
+}
+
+/* Completed Status के लिए हरा रंग */
+.ready-status-bar.status-completed {
+    background: #dcfce7;
+    color: #166534;
 }
 
 .topic-card-body {
@@ -116,7 +129,7 @@
     width: 180px;
 }
 
-.btn-timing, .btn-start, .btn-practice {
+.btn-timing, .btn-start, .btn-practice, .btn-retake {
     padding: 10px;
     border-radius: 12px;
     border: none;
@@ -127,18 +140,80 @@
     justify-content: center;
     gap: 8px;
     transition: 0.2s;
+    font-size: 14px;
 }
 
 .btn-timing { background: #f97316; color: white; }
 .btn-start { background: #1e293b; color: white; }
 .btn-practice { background: white; color: #1e293b; border: 1px solid #e2e8f0; }
+.btn-retake { background: #10b981; color: white; } /* Retake के लिए हरा रंग */
 
 .btn-timing:hover { background: #ea580c; }
 .btn-start:hover { background: #000; }
 .btn-practice:hover { background: #f1f5f9; }
+.btn-retake:hover { background: #059669; }
 
+/* --- Result Statistics Footer (New) --- */
+.result-stats-footer {
+    background: white;
+    padding: 15px 25px;
+    border-top: 1px solid rgba(0,0,0,0.05);
+}
+
+.stats-row {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 12px;
+    flex-wrap: wrap;
+    gap: 10px;
+}
+
+.stats-row span {
+    font-size: 13px;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.stat-correct { color: #22c55e; }
+.stat-wrong { color: #ef4444; }
+.stat-skip { color: #f59e0b; }
+
+/* --- Multi-Progress Bar (New) --- */
+.multi-progress-bar {
+  display: flex;
+  height: 8px; /* मोटाई */
+  background-color: #f1f5f9; /* खाली हिस्सा */
+  border-radius: 10px;
+  overflow: hidden;
+  margin-top: 8px;
+  width: 100%;
+}
+
+.progress-correct {
+    background-color: #22c55e; /* हरा */
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.progress-wrong {
+    background-color: #ef4444; /* लाल */
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+.progress-skip {
+    background-color: #f59e0b; /* ऑरेंज/ग्रे */
+    height: 100%;
+    transition: width 0.5s ease;
+}
+
+/* Responsive */
 @media (max-width: 600px) {
     .topic-card-body { flex-direction: column; gap: 20px; text-align: center; }
     .topic-body-left { flex-direction: column; }
     .topic-actions-group { width: 100%; }
+    .stats-row { justify-content: center; gap: 15px; }
 }

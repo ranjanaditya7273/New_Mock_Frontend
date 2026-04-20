@@ -3,6 +3,7 @@ import Book from './pages/Book';
 import Subject from './pages/Subject';
 import Topic from './pages/Topic';
 import Quiz from "./pages/Quiz"
+import QuizAnalysis from './pages/QuizAnalysis';
 
 function App() {
   return (
@@ -17,6 +18,8 @@ function App() {
         <Route path="/topic/:bookName/:subjectName" element={<Topic />} />
 
         <Route path="/quiz/:bookName/:subjectName/:topicName" element={<Quiz />} />
+
+        <Route path="/analysis/:bookName/:subjectName/:topicName" element={<QuizAnalysis />} />
       </Routes>
     </Router>
   );
