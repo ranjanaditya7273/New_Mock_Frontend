@@ -1,0 +1,310 @@
+/* Book.css */
+.book-container {
+    min-height: 100vh;
+    background-color: #F0F5FA;
+    font-family: sans-serif;
+    color: #1e293b;
+}
+
+/* Navbar */
+.navbar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background-color: white;
+    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.logo-box {
+    background-color: #3b82f6;
+    color: white;
+    padding: 6px 10px;
+    border-radius: 8px;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.logo-text {
+    font-weight: 900;
+    color: #1e293b;
+    font-size: 20px;
+    text-transform: uppercase;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+}
+
+.nav-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: none;
+    border: none;
+    font-weight: 600;
+    color: #475569;
+    cursor: pointer;
+    font-size: 15px;
+}
+
+.admin-sync-btn {
+    background-color: #1e293b;
+    color: white;
+    padding: 10px 20px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+}
+
+/* Header */
+.header-section {
+    text-align: center;
+    padding: 56px 16px 40px;
+}
+
+.main-title {
+    font-size: 44px;
+    font-weight: 900;
+    color: #0f172a;
+    margin-bottom: 24px;
+}
+
+/* Search Bar */
+.search-container {
+    max-width: 600px;
+    margin: 0 auto;
+    position: relative;
+}
+
+.search-input {
+    width: 100%;
+    padding: 18px 24px 18px 60px;
+    border-radius: 20px;
+    border: 2px solid transparent;
+    background-color: white;
+    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    font-size: 18px;
+    outline: none;
+}
+
+.search-input:focus {
+    border-color: #bfdbfe;
+}
+
+.search-icon {
+    position: absolute;
+    left: 24px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+/* Grid & Cards - Responsive Layout */
+.books-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px 96px;
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); 
+    gap: 32px;
+}
+
+.book-card {
+    background-color: white;
+    padding: 0; 
+    border-radius: 24px;
+    border: 1px solid #f1f5f9;
+    display: flex;
+    align-items: center; 
+    justify-content: space-between; 
+    transition: all 0.3s ease;
+    overflow: hidden; 
+    height: 140px; /* हाइट बढ़ाकर 140px की गई ताकि इमेज साफ दिखे */
+}
+
+.book-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+}
+
+.book-info {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    flex: 1;
+}
+
+.book-icon-box {
+    width: 130px;     /* इमेज बॉक्स की चौड़ाई बढ़ाई गई */
+    height: 100%;     /* बिना किसी पैडिंग के फुल हाइट */
+    background-color: #eff6ff;
+    color: #3b82f6;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    flex-shrink: 0;
+}
+
+.book-photo {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* बीच वाले हिस्से (नाम और लिंक) को कार्ड के सेंटर में करने के लिए */
+.book-text-details {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center; /* टेक्स्ट को हॉरिजॉन्टल सेंटर करने के लिए */
+    text-align: center;
+}
+
+.book-name {
+    font-size: 21px;
+    font-weight: 800;
+    color: #1e293b;
+    text-transform: uppercase;
+    margin: 0;
+    line-height: 1.2;
+}
+
+.open-link {
+    color: #3b82f6;
+    font-weight: bold;
+    font-size: 14px;
+    border: none;
+    background: none;
+    cursor: pointer;
+    padding: 0;
+    margin-top: 8px;
+}
+
+.action-buttons {
+    width: 130px;      /* इसे इमेज बॉक्स की चौड़ाई के बराबर रखा ताकि टेक्स्ट परफेक्ट सेंटर में रहे */
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-shrink: 0;
+    padding-right: 0;
+}
+
+.icon-btn {
+    padding: 12px;
+    border-radius: 14px;
+    border: 1px solid #f1f5f9;
+    background-color: #f8fafc;
+    color: #ef4444;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.delete-btn:hover { 
+    color: #ef4444; 
+    background-color: #fef2f2; 
+    border-color: #fee2e2;
+}
+
+/* Responsive Media Query */
+@media (max-width: 900px) {
+    .books-grid {
+        grid-template-columns: 1fr;
+        padding: 0 20px 80px;
+    }
+    
+    .navbar {
+        padding: 16px 20px;
+    }
+
+    .main-title {
+        font-size: 32px;
+    }
+
+    .book-card {
+        height: 120px; /* मोबाइल पर थोड़ी कम हाइट */
+    }
+
+    .book-icon-box, .action-buttons {
+        width: 100px;
+    }
+
+    .book-name {
+        font-size: 18px;
+    }
+}
+
+/* Modal Styling */
+.modal-overlay {
+    position: fixed;
+    inset: 0;
+    background-color: rgba(15, 23, 42, 0.4);
+    backdrop-filter: blur(6px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 100;
+}
+
+.modal-content {
+    background-color: white;
+    padding: 40px;
+    border-radius: 32px;
+    width: 100%;
+    max-width: 400px;
+    position: relative;
+}
+
+.close-modal {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    background: none;
+    border: none;
+    color: #94a3b8;
+    cursor: pointer;
+}
+
+.modal-input {
+    width: 100%;
+    padding: 16px;
+    margin-top: 8px;
+    border-radius: 12px;
+    border: 2px solid #f1f5f9;
+    background-color: #f8fafc;
+    outline: none;
+    font-weight: 600;
+}
+
+.modal-input:focus { border-color: #3b82f6; background-color: white; }
+
+.submit-btn {
+    background-color: #1e293b;
+    color: white;
+    width: 100%;
+    padding: 16px;
+    border-radius: 16px;
+    font-weight: bold;
+    border: none;
+    margin-top: 24px;
+    cursor: pointer;
+}

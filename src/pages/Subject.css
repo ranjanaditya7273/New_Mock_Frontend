@@ -1,0 +1,178 @@
+/* Subject.css */
+.subject-container {
+    min-height: 100vh;
+    background-color: #F0F5FA;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: #1e293b;
+}
+
+/* Nav - No Changes Made Here */
+.subject-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 16px 40px;
+    background-color: white;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    position: sticky;
+    top: 0;
+    z-index: 50;
+}
+
+.back-btn {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    background: none;
+    border: none;
+    color: #3b82f6;
+    font-weight: 700;
+    font-size: 16px;
+    cursor: pointer;
+    padding: 8px 12px;
+    border-radius: 10px;
+    transition: background 0.2s;
+}
+
+.back-btn:hover {
+    background-color: #eff6ff;
+}
+
+.nav-book-name {
+    font-weight: 900;
+    text-transform: uppercase;
+    font-size: 18px;
+    color: #1e293b;
+    letter-spacing: -0.5px;
+}
+
+/* Header & Search - Increased Width */
+.subject-header {
+    text-align: center;
+    padding: 40px 20px 20px;
+}
+
+.subject-search-wrapper {
+    position: relative;
+    max-width: 900px; /* Width Increased from 600px to 900px */
+    margin: 0 auto;
+}
+
+.subject-search-input {
+    width: 100%;
+    padding: 16px 20px 16px 52px;
+    border-radius: 16px;
+    border: 1px solid #e2e8f0;
+    background-color: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    font-size: 16px;
+    outline: none;
+    transition: all 0.3s;
+}
+
+.subject-search-input:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 8px 25px rgba(59, 130, 246, 0.1);
+}
+
+.sub-search-icon {
+    position: absolute;
+    left: 20px;
+    top: 50%;
+    transform: translateY(-50%);
+    color: #94a3b8;
+}
+
+/* Grid Wrapper - Increased Max-Width */
+.subject-grid-layout {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr); /* Default 2 for Big Screens */
+    gap: 20px;
+    padding: 20px 40px 80px;
+    max-width: 1200px; /* Increased Width to make boxes larger */
+    margin: 0 auto;
+}
+
+/* Card Styling Modern */
+.subject-card-modern {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 20px;
+    padding: 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.subject-card-modern:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+    border-color: #3b82f6;
+}
+
+.sub-card-content {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+}
+
+.sub-icon-circle {
+    background: #eff6ff;
+    width: 52px;
+    height: 52px;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+}
+
+.sub-name-text {
+    font-size: 19px;
+    font-weight: 800;
+    color: #1e293b;
+    margin: 0;
+}
+
+.sub-topics-count {
+    font-size: 13px;
+    color: #64748b;
+    margin-top: 4px;
+    font-weight: 600;
+}
+
+/* Delete Button Styles */
+.sub-delete-action {
+    background: transparent;
+    border: none;
+    color: #ef4444;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 12px;
+    transition: all 0.2s;
+}
+
+.sub-delete-action:hover {
+    background: #fef2f2;
+    color: #ef4444;
+}
+
+/* Responsive Fix for Mobile - Only 1 Subject per Row */
+@media (max-width: 768px) {
+    .subject-grid-layout {
+        grid-template-columns: 1fr; /* Mobile me 1 column */
+        padding: 15px 20px;
+        gap: 16px;
+    }
+
+    .subject-search-wrapper {
+        max-width: 100%;
+    }
+
+    .subject-nav {
+        padding: 16px 20px;
+    }
+}

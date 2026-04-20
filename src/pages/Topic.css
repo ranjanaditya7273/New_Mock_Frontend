@@ -1,0 +1,144 @@
+.topic-container {
+    min-height: 100vh;
+    background-color: #f8fafc;
+    padding-bottom: 50px;
+}
+
+/* Navbar */
+.topic-nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px 10%;
+    background: white;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.03);
+    border-radius: 0 0 30px 30px;
+}
+
+.back-button {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 8px 18px;
+    border-radius: 12px;
+    border: 1px solid #e2e8f0;
+    background: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.nav-header-info { text-align: center; }
+.nav-subject-title { font-size: 22px; font-weight: 900; color: #1e293b; margin: 0; text-transform: uppercase; }
+.nav-subtitle { font-size: 14px; color: #64748b; font-weight: 600; }
+
+/* Search Area */
+.topic-search-area { padding: 30px 0; display: flex; justify-content: center; }
+.search-box-wrapper {
+    position: relative;
+    width: 90%;
+    max-width: 500px;
+}
+.search-box-wrapper input {
+    width: 100%;
+    padding: 15px 20px 15px 50px;
+    border-radius: 18px;
+    border: 2px solid #e2e8f0;
+    outline: none;
+    font-size: 16px;
+    transition: 0.3s;
+}
+.search-box-wrapper input:focus { border-color: #3b82f6; }
+.search-box-icon { position: absolute; left: 18px; top: 16px; color: #94a3b8; }
+
+/* Topic Card */
+.topic-list-wrapper {
+    max-width: 800px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+    padding: 0 20px;
+}
+
+.topic-item-card {
+    background: #FFEDD5; /* लाइट ऑरेंज जैसा फोटो में है */
+    border-radius: 25px;
+    overflow: hidden;
+    border: 1px solid #fed7aa;
+}
+
+.ready-status-bar {
+    background: #ffcc80;
+    padding: 6px 20px;
+    font-size: 12px;
+    font-weight: 800;
+    color: #9a3412;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.topic-card-body {
+    padding: 25px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.topic-body-left {
+    display: flex;
+    align-items: center;
+    gap: 20px;
+}
+
+.delete-topic-btn {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    border: none;
+    background: white;
+    color: #ef4444;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+}
+
+.topic-info-text h3 { margin: 0; font-size: 20px; color: #1e293b; font-weight: 800; }
+.topic-info-text span { font-size: 14px; color: #7c2d12; font-weight: 600; }
+
+/* Buttons Group */
+.topic-actions-group {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    width: 180px;
+}
+
+.btn-timing, .btn-start, .btn-practice {
+    padding: 10px;
+    border-radius: 12px;
+    border: none;
+    font-weight: 800;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    transition: 0.2s;
+}
+
+.btn-timing { background: #f97316; color: white; }
+.btn-start { background: #1e293b; color: white; }
+.btn-practice { background: white; color: #1e293b; border: 1px solid #e2e8f0; }
+
+.btn-timing:hover { background: #ea580c; }
+.btn-start:hover { background: #000; }
+.btn-practice:hover { background: #f1f5f9; }
+
+@media (max-width: 600px) {
+    .topic-card-body { flex-direction: column; gap: 20px; text-align: center; }
+    .topic-body-left { flex-direction: column; }
+    .topic-actions-group { width: 100%; }
+}
