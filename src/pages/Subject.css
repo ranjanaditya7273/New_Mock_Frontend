@@ -8,10 +8,15 @@
 
 /* Nav - No Changes Made Here */
 .subject-nav {
+    position: fixed;   
+    top: 0;
+    left: 0;
+    width: 95.3%;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 16px 40px;
+    padding: 20px 40px;
     /* background-color: white; */
     background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
     /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); */
@@ -52,7 +57,9 @@
 /* Header & Search - Increased Width */
 .subject-header {
     text-align: center;
-    padding: 40px 20px 20px;
+    margin-top: 80px; /* नेविगेशन की ऊंचाई के हिसाब से इसे एडजस्ट करें (लगभग 70px-80px) */
+    /* padding: 10px 20px; */
+    /* padding: 40px 20px 20px; */
 }
 
 .subject-search-wrapper {

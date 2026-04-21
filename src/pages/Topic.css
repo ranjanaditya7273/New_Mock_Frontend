@@ -6,11 +6,15 @@
 
 /* Navbar */
 .topic-nav {
-    
+    position: fixed;  
+    top: 0;
+    left: 0;
+    width: 80%;
+    z-index: 1000;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px 10%;
+    padding: 20px 10%;
     /* background: white; */
     background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
     box-shadow: 0 4px 20px rgba(0,0,0,0.03);
@@ -34,7 +38,14 @@
 .nav-subtitle { font-size: 14px; color: #64748b; font-weight: 600; }
 
 /* Search Area */
-.topic-search-area { padding: 30px 0; display: flex; justify-content: center; }
+.topic-search-area { 
+    padding: 30px 0; 
+    display: flex; 
+    justify-content: center;
+    margin-top: 80px; /* नेविगेशन की हाइट के बराबर मार्जिन दें ताकि कंटेंट छिपे नहीं */
+    padding: 20px;
+ }
+
 .search-box-wrapper {
     position: relative;
     width: 90%;
