@@ -15,8 +15,8 @@ const Quiz = () => {
   const [questions, setQuestions] = useState([]);
   const [currentIdx, setCurrentIdx] = useState(0);
   const [userAnswers, setUserAnswers] = useState({});
-  const [timeLeft, setTimeLeft] = useState(20); // Individual Q timer for Timing Mode
-  const [totalSeconds, setTotalSeconds] = useState(0); // Total Quiz Time Tracker
+  const [timeLeft, setTimeLeft] = useState(20);
+  const [totalSeconds, setTotalSeconds] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
   const [clickedIdx, setClickedIdx] = useState(null);
   const [isFullScreen, setIsFullScreen] = useState(false);
@@ -38,7 +38,7 @@ const Quiz = () => {
 
   const handleExit = () => {
     if (document.fullscreenElement) {
-      document.exitFullscreen().then(() => navigate(-1)).catch(() => navigate(-1));
+      document.exitFullscreen();
     } else {
       navigate(-1);
     }
@@ -50,7 +50,6 @@ const Quiz = () => {
     return () => document.removeEventListener('fullscreenchange', handleFsChange);
   }, []);
 
-  // Load Quiz Questions
   useEffect(() => {
     const loadQuiz = async () => {
       try {
@@ -68,7 +67,6 @@ const Quiz = () => {
     loadQuiz();
   }, [bookName, subjectName, topicName]);
 
-  // Global Timer for all modes (to track total time taken)
   useEffect(() => {
     if (!isPaused && questions.length > 0) {
       totalTimerRef.current = setInterval(() => {
@@ -80,7 +78,6 @@ const Quiz = () => {
     return () => clearInterval(totalTimerRef.current);
   }, [isPaused, questions.length]);
 
-  // Individual Question Timer for Timing Mode
   useEffect(() => {
     if (mode === 'timing' && questions.length > 0 && clickedIdx === null && !isPaused) {
       timerRef.current = setInterval(() => {
@@ -98,15 +95,12 @@ const Quiz = () => {
     return () => clearInterval(timerRef.current);
   }, [currentIdx, mode, questions.length, clickedIdx, isPaused]);
 
-  // Format total seconds into "4 min 34 sec" string
   const getFormattedTime = () => {
     const mins = Math.floor(totalSeconds / 60);
     const secs = totalSeconds % 60;
-    if (mins === 0) return `${secs} sec`;
-    return `${mins} min ${secs} sec`;
+    return mins === 0 ? `${secs} sec` : `${mins} min ${secs} sec`;
   };
 
-  // रिडायरेक्ट और सेव लॉजिक (With Time)
   const saveAndRedirect = async (finalUserAns) => {
     const correctArr = [];
     const wrongArr = [];
@@ -127,7 +121,7 @@ const Quiz = () => {
       skipped: skipArr.length,
       total: questions.length,
       completedDate: new Date().toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' }),
-      timeTaken: getFormattedTime(), // अब यहाँ "4 min 34 sec" जैसा डेटा जाएगा
+      timeTaken: getFormattedTime(),
       reviewData: { correctArr, wrongArr, skipArr }
     };
 
@@ -143,15 +137,12 @@ const Quiz = () => {
 
   const handleOptionClick = (qIdx, optionIdx) => {
     if (userAnswers[qIdx] !== undefined) return;
-
     if (mode === 'timing') {
       if (clickedIdx !== null || isPaused) return;
       const updatedAnswers = { ...userAnswers, [qIdx]: optionIdx };
       setUserAnswers(updatedAnswers);
       setClickedIdx(optionIdx);
-
       if (optionIdx === questions[qIdx].ans) fireConfetti();
-
       setTimeout(() => {
         if (currentIdx + 1 < questions.length) {
           setCurrentIdx(prev => prev + 1);
@@ -175,113 +166,108 @@ const Quiz = () => {
     }
   };
 
-  const submitFullTest = () => {
-    saveAndRedirect(userAnswers);
-  };
-
   if (questions.length === 0) return <div className="loader">Loading Questions...</div>;
 
-  // Normal Mode UI
-  if (!mode) {
+  // --- Normal/Practice Mode UI (Same as before) ---
+  if (!mode || mode === 'practice') {
+    const isPractice = mode === 'practice';
     return (
       <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active' : ''}`}>
-        {!isFullScreen && (
-          <nav className="quiz-nav fixed-top">
-            <button className="exit-btn" onClick={handleExit}><ChevronLeft size={18} /> Exit</button>
-            <span className="quiz-header-title">{topicName}</span>
-            <div className="nav-right">
-              <span className="total-time-badge"><Timer size={14} /> {getFormattedTime()}</span>
-              <button className="fs-toggle-btn" onClick={toggleFullScreen}><Maximize size={18} /></button>
-            </div>
-          </nav>
-        )}
-        <div className={`quiz-content ${isFullScreen ? 'pt-20' : 'pt-nav'} pb-footer`}>
+        <nav className="quiz-nav fixed-top">
+          {/* <button className="exit-btn" onClick={() => navigate(-1)}><ChevronLeft size={18} /> {isPractice ? 'Back' : 'Exit'}</button> */}
+          <button className={isFullScreen ? 'fs-exit-left' : 'exit-btn'} onClick={handleExit}>
+            {isFullScreen ? <><Minimize size={18} /> Exit FS</> : <><ChevronLeft size={18} /> Back</>}
+          </button>
+          <span className="quiz-header-title">{topicName}</span>
+          <div className="nav-right">
+            {!isPractice && <span className="total-time-badge"><Timer size={14} /> {getFormattedTime()}</span>}
+            <button className="fs-toggle-btn" onClick={toggleFullScreen}><Maximize size={18} /></button>
+          </div>
+        </nav>
+        <div className={`quiz-content pt-nav ${!isPractice ? 'pb-footer' : ''}`}>
           {questions.map((q, idx) => (
-            <div key={idx} className="question-card mb-6">
+            <div key={idx} className={`question-card mb-6 ${isPractice ? 'learning-card' : ''}`}>
               <h2 className="question-text">{idx + 1}. {q.q || q.question}</h2>
               <div className="options-container">
                 {q.options.map((opt, i) => {
-                  let st = (userAnswers[idx] !== undefined) ? (i === q.ans ? "correct" : (i === userAnswers[idx] ? "wrong" : "dimmed")) : "";
+                  let st = isPractice 
+                    ? (i === q.ans ? "correct" : "dimmed")
+                    : (userAnswers[idx] !== undefined ? (i === q.ans ? "correct" : (i === userAnswers[idx] ? "wrong" : "dimmed")) : "");
                   return (
-                    <div key={i} className={`option-row ${st}`} onClick={() => handleOptionClick(idx, i)}>
+                    <div key={i} className={`option-row ${st}`} onClick={() => !isPractice && handleOptionClick(idx, i)}>
                       <span className="opt-letter">{String.fromCharCode(65 + i)}</span>
                       <span className="opt-text">{opt}</span>
+                      {isPractice && i === q.ans && <CheckCircle2 size={18} className="status-ico-right" />}
                     </div>
                   );
                 })}
               </div>
+              {isPractice && (
+                <div className="explanation-box-modern">
+                  <div className="exp-header-modern"><Lightbulb size={18} /> <span>Explanation</span></div>
+                  <p className="exp-body-modern">{q.explanation || "No explanation provided."}</p>
+                </div>
+              )}
             </div>
           ))}
         </div>
-        <div className="fixed-footer">
-          <button className="main-submit" onClick={submitFullTest}>
-            Finish & Save ({Object.keys(userAnswers).length}/{questions.length})
-          </button>
-        </div>
+        {!isPractice && (
+          <div className="fixed-footer">
+            <button className="main-submit" onClick={() => saveAndRedirect(userAnswers)}>
+              Finish & Save ({Object.keys(userAnswers).length}/{questions.length})
+            </button>
+          </div>
+        )}
       </div>
     );
   }
 
-  // Practice Mode UI (No changes needed for result saving here)
-  if (mode === 'practice') {
-    return (
-      <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active' : ''}`}>
-        <nav className="quiz-nav fixed-top">
-          <button className="exit-btn" onClick={handleExit}><ChevronLeft size={18} /> Back</button>
-          <span className="quiz-header-title">{topicName}</span>
-          <button className="fs-toggle-btn" onClick={toggleFullScreen}><Maximize size={18} /></button>
-        </nav>
-        <div className={`quiz-content pt-nav`}>
-          {questions.map((q, idx) => (
-            <div key={idx} className="question-card mb-4 learning-card">
-              <h2 className="question-text">{idx + 1}. {q.q || q.question}</h2>
-              <div className="options-container">
-                {q.options.map((opt, i) => (
-                  <div key={i} className={`option-row ${i === q.ans ? 'correct' : 'dimmed'}`}>
-                    <span className="opt-letter">{String.fromCharCode(65 + i)}</span>
-                    <span className="opt-text">{opt}</span>
-                    {i === q.ans && <CheckCircle2 size={18} className="status-ico-right" />}
-                  </div>
-                ))}
-              </div>
-              <div className="explanation-box-modern">
-                <div className="exp-header-modern"><Lightbulb size={18} /> <span>Explanation</span></div>
-                <p className="exp-body-modern">{q.explanation || "No explanation provided."}</p>
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
-    );
-  }
-
-  // Timing Mode UI
+  // --- Timing Mode UI (Main Updates) ---
   if (mode === 'timing') {
     const currentQ = questions[currentIdx];
     return (
       <div className={`quiz-page ${isFullScreen ? 'fs-active' : ''}`}>
-        <nav className={`quiz-nav ${isFullScreen ? 'fs-nav-timing' : 'fixed-top'}`}>
-          <button className="exit-btn" onClick={handleExit}><ChevronLeft size={18} /> Exit</button>
-          <div className="timer-controls">
+        <nav className={isFullScreen ? 'fs-nav-timing' : 'quiz-nav fixed-top'}>
+          {/* Left Side: Exit FS or Back */}
+          <button className={isFullScreen ? 'fs-exit-left' : 'exit-btn'} onClick={handleExit}>
+            {isFullScreen ? <><Minimize size={18} /> Exit FS</> : <><ChevronLeft size={18} /> Back</>}
+          </button>
+
+          {/* Center: Controls in ONE ROW for both Normal & FS */}
+          <div className="timing-row-controls">
             <div className="timer-circle"><Timer size={18} /> <span>{timeLeft}s</span></div>
             <button className="control-btn pause" onClick={() => setIsPaused(!isPaused)}>
               {isPaused ? <Play size={16} /> : <Pause size={16} />}
             </button>
-            <button className="control-btn skip" onClick={handleNext}><SkipForward size={16} /></button>
+            <button className="control-btn skip" onClick={handleNext}>
+              <SkipForward size={16} />
+            </button>
           </div>
+
+          {/* Right Side: FS Toggle & Counter */}
           <div className="nav-right">
-            <span className="q-counter">{currentIdx + 1}/{questions.length}</span>
+            {!isFullScreen && (
+              <button className="fs-toggle-btn" onClick={toggleFullScreen}>
+                <Maximize size={18} />
+              </button>
+            )}
+            <span className={isFullScreen ? 'fs-q-total' : 'fs-q-total'}>
+              {currentIdx + 1}/{questions.length}
+            </span>
           </div>
         </nav>
-        <main className="quiz-content pt-nav">
-          <div className="question-card">
+
+        <main className={`quiz-content ${isFullScreen ? 'fs-full-height-content' : 'pt-nav'}`}>
+          <div className={isFullScreen ? 'question-card fs-card-full' : 'question-card'}>
             {isPaused && <div className="pause-overlay">Paused</div>}
-            <h2 className="question-text">{currentIdx + 1}. {currentQ.q || currentQ.question}</h2>
-            <div className="options-container">
+            <h2 className={isFullScreen ? 'question-text fs-q-big' : 'question-text'}>
+              {currentIdx + 1}. {currentQ.q || currentQ.question}
+            </h2>
+            <div className={isFullScreen ? 'options-grid' : 'options-container'}>
               {currentQ.options.map((opt, i) => {
                 let status = (clickedIdx !== null) ? (i === currentQ.ans ? "correct" : (i === clickedIdx ? "wrong" : "dimmed")) : "";
                 return (
-                  <div key={i} className={`option-row ${status}`} onClick={() => handleOptionClick(currentIdx, i)}>
+                  <div key={i} className={`option-row ${status} ${isFullScreen ? 'fs-opt-row' : ''}`} onClick={() => handleOptionClick(currentIdx, i)}>
                     <span className="opt-letter">{String.fromCharCode(65 + i)}</span>
                     <span className="opt-text">{opt}</span>
                   </div>

@@ -94,7 +94,7 @@ const QuizAnalysis = () => {
             {/* Center Group */}
             <div className="nav-title-group">
               <h1 className="topic-title-main">{topicName}</h1>
-              <span className="subtitle-text">Performance Analysis</span>
+              {/* <span className="subtitle-text">Performance Analysis</span> */}
             </div>
 
             {/* Right Group (Full Screen Icon) */}
