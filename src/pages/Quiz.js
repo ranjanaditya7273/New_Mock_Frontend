@@ -172,7 +172,8 @@ const Quiz = () => {
   if (!mode || mode === 'practice') {
     const isPractice = mode === 'practice';
     return (
-      <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active' : ''}`}>
+      // <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active' : ''}`}>
+      <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active normal-fs-style' : ''}`}>
         <nav className="quiz-nav fixed-top">
           {/* <button className="exit-btn" onClick={() => navigate(-1)}><ChevronLeft size={18} /> {isPractice ? 'Back' : 'Exit'}</button> */}
           <button className={isFullScreen ? 'fs-exit-left' : 'exit-btn'} onClick={handleExit}>
