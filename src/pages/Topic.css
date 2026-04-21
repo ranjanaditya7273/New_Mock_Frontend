@@ -6,11 +6,13 @@
 
 /* Navbar */
 .topic-nav {
+    
     display: flex;
     align-items: center;
     justify-content: space-between;
     padding: 15px 10%;
-    background: white;
+    /* background: white; */
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
     box-shadow: 0 4px 20px rgba(0,0,0,0.03);
     border-radius: 0 0 30px 30px;
 }
@@ -28,7 +30,7 @@
 }
 
 .nav-header-info { text-align: center; }
-.nav-subject-title { font-size: 22px; font-weight: 900; color: #1e293b; margin: 0; text-transform: uppercase; }
+.nav-subject-title { font-size: 22px; font-weight: 900; color: white; margin: 0; text-transform: uppercase; }
 .nav-subtitle { font-size: 14px; color: #64748b; font-weight: 600; }
 
 /* Search Area */

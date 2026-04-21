@@ -12,8 +12,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 40px;
-    background-color: white;
-    box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+    /* background-color: white; */
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    /* box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05); */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border-radius: 0 0 30px 30px;
     position: sticky;
     top: 0;
     z-index: 50;
@@ -36,7 +39,7 @@
 
 .logo-text {
     font-weight: 900;
-    color: #1e293b;
+    color: white;
     font-size: 20px;
     text-transform: uppercase;
 }
@@ -71,7 +74,7 @@
     font-size: 14px;
     border: none;
     cursor: pointer;
-    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
 /* Header */
@@ -100,7 +103,7 @@
     border-radius: 20px;
     border: 2px solid transparent;
     background-color: white;
-    box-shadow: 0 8px 30px rgba(0,0,0,0.04);
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.04);
     font-size: 18px;
     outline: none;
 }
@@ -123,21 +126,22 @@
     margin: 0 auto;
     padding: 0 40px 96px;
     display: grid;
-    grid-template-columns: repeat(2, 1fr); 
+    grid-template-columns: repeat(2, 1fr);
     gap: 32px;
 }
 
 .book-card {
     background-color: white;
-    padding: 0; 
+    padding: 0;
     border-radius: 24px;
     border: 1px solid #f1f5f9;
     display: flex;
-    align-items: center; 
-    justify-content: space-between; 
+    align-items: center;
+    justify-content: space-between;
     transition: all 0.3s ease;
-    overflow: hidden; 
-    height: 140px; /* हाइट बढ़ाकर 140px की गई ताकि इमेज साफ दिखे */
+    overflow: hidden;
+    height: 140px;
+    /* हाइट बढ़ाकर 140px की गई ताकि इमेज साफ दिखे */
 }
 
 .book-card:hover {
@@ -153,8 +157,10 @@
 }
 
 .book-icon-box {
-    width: 130px;     /* इमेज बॉक्स की चौड़ाई बढ़ाई गई */
-    height: 100%;     /* बिना किसी पैडिंग के फुल हाइट */
+    width: 130px;
+    /* इमेज बॉक्स की चौड़ाई बढ़ाई गई */
+    height: 100%;
+    /* बिना किसी पैडिंग के फुल हाइट */
     background-color: #eff6ff;
     color: #3b82f6;
     display: flex;
@@ -176,7 +182,8 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    align-items: center; /* टेक्स्ट को हॉरिजॉन्टल सेंटर करने के लिए */
+    align-items: center;
+    /* टेक्स्ट को हॉरिजॉन्टल सेंटर करने के लिए */
     text-align: center;
 }
 
@@ -201,7 +208,8 @@
 }
 
 .action-buttons {
-    width: 130px;      /* इसे इमेज बॉक्स की चौड़ाई के बराबर रखा ताकि टेक्स्ट परफेक्ट सेंटर में रहे */
+    width: 130px;
+    /* इसे इमेज बॉक्स की चौड़ाई के बराबर रखा ताकि टेक्स्ट परफेक्ट सेंटर में रहे */
     display: flex;
     justify-content: center;
     align-items: center;
@@ -219,9 +227,9 @@
     transition: all 0.2s;
 }
 
-.delete-btn:hover { 
-    color: #ef4444; 
-    background-color: #fef2f2; 
+.delete-btn:hover {
+    color: #ef4444;
+    background-color: #fef2f2;
     border-color: #fee2e2;
 }
 
@@ -231,7 +239,7 @@
         grid-template-columns: 1fr;
         padding: 0 20px 80px;
     }
-    
+
     .navbar {
         padding: 16px 20px;
     }
@@ -241,10 +249,12 @@
     }
 
     .book-card {
-        height: 120px; /* मोबाइल पर थोड़ी कम हाइट */
+        height: 120px;
+        /* मोबाइल पर थोड़ी कम हाइट */
     }
 
-    .book-icon-box, .action-buttons {
+    .book-icon-box,
+    .action-buttons {
         width: 100px;
     }
 
@@ -295,7 +305,10 @@
     font-weight: 600;
 }
 
-.modal-input:focus { border-color: #3b82f6; background-color: white; }
+.modal-input:focus {
+    border-color: #3b82f6;
+    background-color: white;
+}
 
 .submit-btn {
     background-color: #1e293b;

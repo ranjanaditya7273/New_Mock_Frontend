@@ -12,8 +12,11 @@
     align-items: center;
     justify-content: space-between;
     padding: 16px 40px;
-    background-color: white;
-    box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+    /* background-color: white; */
+    background: linear-gradient(135deg, #4f46e5 0%, #3730a3 100%);
+    /* box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05); */
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.03);
+    border-radius: 0 0 30px 30px;
     position: sticky;
     top: 0;
     z-index: 50;
@@ -42,8 +45,8 @@
     font-weight: 900;
     text-transform: uppercase;
     font-size: 18px;
-    color: #1e293b;
-    letter-spacing: -0.5px;
+    color: white;
+    letter-spacing: 1px;
 }
 
 /* Header & Search - Increased Width */
@@ -54,7 +57,8 @@
 
 .subject-search-wrapper {
     position: relative;
-    max-width: 900px; /* Width Increased from 600px to 900px */
+    max-width: 900px;
+    /* Width Increased from 600px to 900px */
     margin: 0 auto;
 }
 
@@ -64,7 +68,7 @@
     border-radius: 16px;
     border: 1px solid #e2e8f0;
     background-color: white;
-    box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
     font-size: 16px;
     outline: none;
     transition: all 0.3s;
@@ -86,10 +90,12 @@
 /* Grid Wrapper - Increased Max-Width */
 .subject-grid-layout {
     display: grid;
-    grid-template-columns: repeat(2, 1fr); /* Default 2 for Big Screens */
+    grid-template-columns: repeat(2, 1fr);
+    /* Default 2 for Big Screens */
     gap: 20px;
     padding: 20px 40px 80px;
-    max-width: 1200px; /* Increased Width to make boxes larger */
+    max-width: 1200px;
+    /* Increased Width to make boxes larger */
     margin: 0 auto;
 }
 
@@ -109,7 +115,7 @@
 
 .subject-card-modern:hover {
     transform: translateY(-3px);
-    box-shadow: 0 12px 20px rgba(0,0,0,0.08);
+    box-shadow: 0 12px 20px rgba(0, 0, 0, 0.08);
     border-color: #3b82f6;
 }
 
@@ -163,7 +169,8 @@
 /* Responsive Fix for Mobile - Only 1 Subject per Row */
 @media (max-width: 768px) {
     .subject-grid-layout {
-        grid-template-columns: 1fr; /* Mobile me 1 column */
+        grid-template-columns: 1fr;
+        /* Mobile me 1 column */
         padding: 15px 20px;
         gap: 16px;
     }
