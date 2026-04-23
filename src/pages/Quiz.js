@@ -78,12 +78,13 @@ const Quiz = () => {
     return () => clearInterval(totalTimerRef.current);
   }, [isPaused, questions.length]);
 
+  // Timing logic updated to handle next question properly
   useEffect(() => {
     if (mode === 'timing' && questions.length > 0 && clickedIdx === null && !isPaused) {
       timerRef.current = setInterval(() => {
         setTimeLeft((prev) => {
           if (prev <= 1) {
-            handleNext();
+            handleNext(); // This will now clear clickedIdx
             return 20;
           }
           return prev - 1;
@@ -143,10 +144,11 @@ const Quiz = () => {
       setUserAnswers(updatedAnswers);
       setClickedIdx(optionIdx);
       if (optionIdx === questions[qIdx].ans) fireConfetti();
+      
       setTimeout(() => {
         if (currentIdx + 1 < questions.length) {
           setCurrentIdx(prev => prev + 1);
-          setClickedIdx(null);
+          setClickedIdx(null); // Clear selection for next question
           setTimeLeft(20);
         } else {
           saveAndRedirect(updatedAnswers);
@@ -158,6 +160,7 @@ const Quiz = () => {
   };
 
   const handleNext = () => {
+    setClickedIdx(null); // Fix: Always clear selection when moving to next question
     if (currentIdx + 1 < questions.length) {
       setCurrentIdx(prev => prev + 1);
       setTimeLeft(20);
@@ -168,14 +171,11 @@ const Quiz = () => {
 
   if (questions.length === 0) return <div className="loader">Loading Questions...</div>;
 
-  // --- Normal/Practice Mode UI (Same as before) ---
   if (!mode || mode === 'practice') {
     const isPractice = mode === 'practice';
     return (
-      // <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active' : ''}`}>
       <div className={`quiz-page scrollable ${isFullScreen ? 'fs-active normal-fs-style' : ''}`}>
         <nav className="quiz-nav fixed-top">
-          {/* <button className="exit-btn" onClick={() => navigate(-1)}><ChevronLeft size={18} /> {isPractice ? 'Back' : 'Exit'}</button> */}
           <button className={isFullScreen ? 'fs-exit-left' : 'exit-btn'} onClick={handleExit}>
             {isFullScreen ? <><Minimize size={18} /> Exit FS</> : <><ChevronLeft size={18} /> Back</>}
           </button>
@@ -223,18 +223,15 @@ const Quiz = () => {
     );
   }
 
-  // --- Timing Mode UI (Main Updates) ---
   if (mode === 'timing') {
     const currentQ = questions[currentIdx];
     return (
       <div className={`quiz-page ${isFullScreen ? 'fs-active' : ''}`}>
         <nav className={isFullScreen ? 'fs-nav-timing' : 'quiz-nav fixed-top'}>
-          {/* Left Side: Exit FS or Back */}
           <button className={isFullScreen ? 'fs-exit-left' : 'exit-btn'} onClick={handleExit}>
             {isFullScreen ? <><Minimize size={18} /> Exit FS</> : <><ChevronLeft size={18} /> Back</>}
           </button>
 
-          {/* Center: Controls in ONE ROW for both Normal & FS */}
           <div className="timing-row-controls">
             <div className="timer-circle"><Timer size={18} /> <span>{timeLeft}s</span></div>
             <button className="control-btn pause" onClick={() => setIsPaused(!isPaused)}>
@@ -245,14 +242,13 @@ const Quiz = () => {
             </button>
           </div>
 
-          {/* Right Side: FS Toggle & Counter */}
           <div className="nav-right">
             {!isFullScreen && (
               <button className="fs-toggle-btn" onClick={toggleFullScreen}>
                 <Maximize size={18} />
               </button>
             )}
-            <span className={isFullScreen ? 'fs-q-total' : 'fs-q-total'}>
+            <span className='fs-q-total'>
               {currentIdx + 1}/{questions.length}
             </span>
           </div>
