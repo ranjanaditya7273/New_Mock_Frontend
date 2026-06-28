@@ -44,6 +44,21 @@ const Quiz = () => {
     }
   };
 
+  // URL से qIdx पढ़कर ऑटो-स्क्रॉल करने के लिए
+  useEffect(() => {
+    const qIdxFromUrl = queryParams.get('qIdx');
+    if (qIdxFromUrl !== null && questions.length > 0) {
+      const targetIndex = parseInt(qIdxFromUrl);
+      // छोटे से डिले के साथ स्क्रॉल करें ताकि DOM रेंडर हो जाए
+      setTimeout(() => {
+        const element = document.getElementsByClassName('question-card')[targetIndex];
+        if (element) {
+          element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 500); 
+    }
+  }, [questions]); // questions लोड होने के बाद चलेगा
+
   useEffect(() => {
     const handleFsChange = () => setIsFullScreen(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', handleFsChange);
