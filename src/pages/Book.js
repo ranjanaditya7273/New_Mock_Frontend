@@ -7,7 +7,8 @@ import './Book.css';
 
 const Book = () => {
     const [books, setBooks] = useState([]);
-    const [searchTerm, setSearchTerm] = useState('');
+    const [inputValue, setInputValue] = useState(''); // इनपुट फील्ड की वैल्यू के लिए
+    const [searchTerm, setSearchTerm] = useState(''); // एक्चुअल सर्च ट्रिगर के लिए
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [creds, setCreds] = useState({ email: '', password: '' });
@@ -75,6 +76,16 @@ const Book = () => {
         setSearchedQuestions(results);
     }, [searchTerm, books]);
 
+    const handleSearchClick = () => {
+        setSearchTerm(inputValue);
+    };
+
+    const handleKeyDown = (e) => {
+        if (e.key === 'Enter') {
+            setSearchTerm(inputValue);
+        }
+    };
+
     const handleQuestionClick = (sq) => {
         const path = `/quiz/${encodeURIComponent(sq.bookName)}/${encodeURIComponent(sq.subjectName)}/${encodeURIComponent(sq.topicName)}?mode=practice&qIdx=${sq.questionIndex}`;
         navigate(path);
@@ -134,15 +145,62 @@ const Book = () => {
                 </div>
             </nav>
 
-            <header className="header-section">
-                <div className="search-container">
-                    <Search className="search-icon" size={22} />
+            <header className="header-section" style={{ padding: '20px 15px' }}>
+                {/* Updated Search Container for Better Mobile View and Button */}
+                <div 
+                    className="search-container" 
+                    style={{ 
+                        display: 'flex', 
+                        alignItems: 'center', 
+                        width: '100%', 
+                        maxWidth: '600px', 
+                        margin: '0 auto',
+                        backgroundColor: '#ffffff',
+                        borderRadius: '50px', // Pill shape design
+                        padding: '6px 8px',
+                        boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
+                        border: '1px solid #e2e8f0'
+                    }}
+                >
+                    {/* <Search className="search-icon" size={20} color="#64748b" style={{ marginLeft: '10px' }} /> */}
                     <input
                         type="text"
-                        placeholder="Search questions across all books..."
+                        placeholder="Search questions..."
                         className="search-input"
-                        onChange={(e) => setSearchTerm(e.target.value)}
+                        value={inputValue}
+                        onChange={(e) => setInputValue(e.target.value)}
+                        onKeyDown={handleKeyDown}
+                        style={{
+                            flex: 1, // Takes remaining space
+                            border: 'none',
+                            outline: 'none',
+                            padding: '10px 12px',
+                            fontSize: '16px',
+                            backgroundColor: 'transparent',
+                            minWidth: '0' // Important for mobile so input doesn't push button out
+                        }}
                     />
+                    <button 
+                        onClick={handleSearchClick}
+                        style={{
+                            backgroundColor: '#2563eb',
+                            color: '#ffffff',
+                            border: 'none',
+                            padding: '10px 24px',
+                            borderRadius: '50px',
+                            cursor: 'pointer',
+                            fontWeight: '600',
+                            fontSize: '15px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            transition: 'background-color 0.2s ease',
+                            boxShadow: '0 2px 4px rgba(37, 99, 235, 0.2)'
+                        }}
+                        onMouseOver={(e) => e.target.style.backgroundColor = '#1d4ed8'}
+                        onMouseOut={(e) => e.target.style.backgroundColor = '#2563eb'}
+                    >
+                        Search
+                    </button>
                 </div>
             </header>
 
@@ -163,7 +221,6 @@ const Book = () => {
                                     onClick={() => handleQuestionClick(sq)}
                                     style={{ padding: '15px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer' }}
                                 >
-                                    {/* यहाँ हमने क्वेश्चन नंबर ऐड कर दिया है */}
                                     <p style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: '500', color: '#1e293b' }}>
                                         {sq.questionIndex + 1}. {sq.questionText}
                                     </p>
