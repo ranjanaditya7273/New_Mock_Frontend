@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, ShieldCheck, Trash2, LayoutGrid, X } from 'lucide-react';
+import { Search, ShieldCheck, Trash2, LayoutGrid, X, BookOpen } from 'lucide-react';
 import { getAllBooksFromLocal, saveBooksToLocal } from '../db';
 import './Book.css';
 
@@ -12,7 +12,7 @@ const Book = () => {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [creds, setCreds] = useState({ email: '', password: '' });
-    
+
     const [searchedQuestions, setSearchedQuestions] = useState([]);
     const navigate = useNavigate();
 
@@ -46,7 +46,7 @@ const Book = () => {
             else if (node.name && (node.questions || node.data)) newTopic = node.name;
 
             const qText = node.question || node.questionText || node.title || node.text;
-            
+
             if (qText && typeof qText === 'string') {
                 if (qText.toLowerCase().includes(searchTerm.toLowerCase())) {
                     if (!results.find(r => r.questionText === qText)) {
@@ -103,6 +103,7 @@ const Book = () => {
         setLoading(true);
         try {
             const res = await axios.post('https://aditya-mock.onrender.com/api/admin-dump', creds);
+
             if (res.data && res.data.success) {
                 await saveBooksToLocal(res.data.data);
                 setBooks(res.data.data);
@@ -132,37 +133,102 @@ const Book = () => {
     };
 
     return (
-        <div className="book-container">
-            <nav className="navbar">
-                <div className="logo-section">
+        <div className="book-container" style={{ paddingTop: "0px" }}>
+            <nav className="navbar" style={{
+                display: 'flex',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                width: '100%',
+                padding: '15px 25px',
+                boxSizing: 'border-box',
+                flexWrap: 'wrap',
+                gap: '12px',
+                // maxWidth: '1400px',
+                margin: '0 auto'
+            }}>
+                {/* Left Side: Logo & Name */}
+                <div className="logo-section" style={{ display: 'flex', alignItems: 'center', flexShrink: 0 }}>
                     <div className="logo-box">Er.</div>
-                    <span className="logo-text">ADITYA RANJAN</span>
+                    <span className="logo-text" style={{ fontSize: '15px', whiteSpace: 'nowrap' }}>ADITYA RANJAN</span>
                 </div>
-                <div className="nav-links">
-                    <button onClick={() => setShowModal(true)} className="admin-sync-btn">
-                        <ShieldCheck size={18} /> Admin Sync
+
+                {/* Middle: Chapter-Wise Quiz Button */}
+                <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1, order: 3, width: '100%', minWidth: '200px' }} className="desktop-middle-btn">
+                    <button
+                        onClick={() => { window.location.href = 'https://aditya-mixedquiz-mock.onrender.com/'; }}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '8px',
+                            padding: '8px 16px',
+                            backgroundColor: '#ffffff',
+                            color: '#1e293b',
+                            border: '1px solid #cbd5e1',
+                            borderRadius: '8px',
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                        }}
+                    >
+                        <BookOpen size={16} /> Go To Mixed-Quiz
+                    </button>
+                </div>
+
+                {/* Right Side: Admin Button */}
+                <div className="nav-links" style={{ display: 'flex', alignItems: 'center', flexShrink: 0, order: 2 }}>
+                    <button
+                        onClick={() => setShowModal(true)}
+                        className="admin-sync-btn"
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '8px 16px',
+                            fontSize: '13px',
+                            borderRadius: '8px',
+                            whiteSpace: 'nowrap'
+                        }}
+                    >
+                        <ShieldCheck size={16} /> Admin
                     </button>
                 </div>
             </nav>
 
+            {/* Inline CSS for Laptop vs Mobile adjustments */}
+            <style>{`
+                @media (min-width: 900px) {
+                    .navbar {
+                        flex-wrap: nowrap !important;
+                        padding: 15px 40px !important;
+                    }
+                    .desktop-middle-btn {
+                        order: 2 !important;
+                        width: auto !important;
+                    }
+                    .nav-links {
+                        order: 3 !important;
+                    }
+                }
+            `}</style>
+
             <header className="header-section" style={{ padding: '20px 15px' }}>
-                {/* Updated Search Container for Better Mobile View and Button */}
-                <div 
-                    className="search-container" 
-                    style={{ 
-                        display: 'flex', 
-                        alignItems: 'center', 
-                        width: '100%', 
-                        maxWidth: '600px', 
+                <div
+                    className="search-container"
+                    style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        width: '100%',
+                        maxWidth: '600px',
                         margin: '0 auto',
                         backgroundColor: '#ffffff',
-                        borderRadius: '50px', // Pill shape design
+                        borderRadius: '50px',
                         padding: '6px 8px',
                         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
                         border: '1px solid #e2e8f0'
                     }}
                 >
-                    {/* <Search className="search-icon" size={20} color="#64748b" style={{ marginLeft: '10px' }} /> */}
                     <input
                         type="text"
                         placeholder="Search questions..."
@@ -171,26 +237,26 @@ const Book = () => {
                         onChange={(e) => setInputValue(e.target.value)}
                         onKeyDown={handleKeyDown}
                         style={{
-                            flex: 1, // Takes remaining space
+                            flex: 1,
                             border: 'none',
                             outline: 'none',
                             padding: '10px 12px',
                             fontSize: '16px',
                             backgroundColor: 'transparent',
-                            minWidth: '0' // Important for mobile so input doesn't push button out
+                            minWidth: '0'
                         }}
                     />
-                    <button 
+                    <button
                         onClick={handleSearchClick}
                         style={{
                             backgroundColor: '#2563eb',
                             color: '#ffffff',
                             border: 'none',
-                            padding: '10px 24px',
+                            padding: '8px 18px',
                             borderRadius: '50px',
                             cursor: 'pointer',
                             fontWeight: '600',
-                            fontSize: '15px',
+                            fontSize: '14px',
                             display: 'flex',
                             alignItems: 'center',
                             transition: 'background-color 0.2s ease',
@@ -216,15 +282,15 @@ const Book = () => {
                     {searchedQuestions.length > 0 ? (
                         <div style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                             {searchedQuestions.map((sq) => (
-                                <div 
-                                    key={sq.id} 
+                                <div
+                                    key={sq.id}
                                     onClick={() => handleQuestionClick(sq)}
                                     style={{ padding: '15px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer' }}
                                 >
                                     <p style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: '500', color: '#1e293b' }}>
                                         {sq.questionIndex + 1}. {sq.questionText}
                                     </p>
-                                    
+
                                     <div style={{ display: 'flex', gap: '10px', flexWrap: 'wrap', marginTop: '10px' }}>
                                         <span style={{ fontSize: '12px', padding: '4px 8px', backgroundColor: '#f1f5f9', color: '#475569', borderRadius: '4px', fontWeight: '600' }}>📚 {sq.bookName}</span>
                                         <span style={{ fontSize: '12px', padding: '4px 8px', backgroundColor: '#e0e7ff', color: '#3730a3', borderRadius: '4px', fontWeight: '600' }}>📖 {sq.subjectName}</span>
@@ -260,7 +326,7 @@ const Book = () => {
                 <div className="modal-overlay">
                     <div className="modal-content">
                         <button onClick={() => setShowModal(false)} className="close-modal"><X size={24} /></button>
-                        <h2 style={{ fontWeight: 900, fontSize: '28px', marginBottom: '8px' }}>Admin Sync</h2>
+                        <h2 style={{ fontWeight: 900, fontSize: '28px', marginBottom: '8px' }}>Admin Login</h2>
                         <form onSubmit={handleSync}>
                             <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase' }}>Email</label>
                             <input type="email" required className="modal-input" onChange={(e) => setCreds({ ...creds, email: e.target.value })} />
@@ -275,4 +341,4 @@ const Book = () => {
     );
 };
 
-export default Book;
+export default Book; // (Note: keep original export default Book;)
