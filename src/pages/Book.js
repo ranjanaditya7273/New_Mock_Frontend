@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-import { Search, ShieldCheck, Trash2, LayoutGrid, X, BookOpen } from 'lucide-react';
+import { Search, ShieldCheck, Trash2, LayoutGrid, X, BookOpen, Moon, Sun } from 'lucide-react';
 import { getAllBooksFromLocal, saveBooksToLocal } from '../db';
 import './Book.css';
 
@@ -12,13 +12,32 @@ const Book = () => {
     const [showModal, setShowModal] = useState(false);
     const [loading, setLoading] = useState(false);
     const [creds, setCreds] = useState({ email: '', password: '' });
+    const [darkMode, setDarkMode] = useState(false);
 
     const [searchedQuestions, setSearchedQuestions] = useState([]);
     const navigate = useNavigate();
 
     useEffect(() => {
         loadData();
+        // Check saved theme preference on initial load
+        const savedTheme = localStorage.getItem('theme');
+        if (savedTheme === 'dark') {
+            setDarkMode(true);
+            document.body.classList.add('dark-mode');
+        }
     }, []);
+
+    const toggleDarkMode = () => {
+        const newMode = !darkMode;
+        setDarkMode(newMode);
+        if (newMode) {
+            document.body.classList.add('dark-mode');
+            localStorage.setItem('theme', 'dark');
+        } else {
+            document.body.classList.remove('dark-mode');
+            localStorage.setItem('theme', 'light');
+        }
+    };
 
     useEffect(() => {
         if (!searchTerm.trim()) {
@@ -143,7 +162,6 @@ const Book = () => {
                 boxSizing: 'border-box',
                 flexWrap: 'wrap',
                 gap: '12px',
-                // maxWidth: '1400px',
                 margin: '0 auto'
             }}>
                 {/* Left Side: Logo & Name */}
@@ -152,8 +170,8 @@ const Book = () => {
                     <span className="logo-text" style={{ fontSize: '15px', whiteSpace: 'nowrap' }}>ADITYA RANJAN</span>
                 </div>
 
-                {/* Middle: Chapter-Wise Quiz Button */}
-                <div style={{ display: 'flex', justifyContent: 'center', flexGrow: 1, order: 3, width: '100%', minWidth: '200px' }} className="desktop-middle-btn">
+                {/* Middle: Chapter-Wise Quiz Button & Dark Mode Toggle */}
+                <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: '10px', flexGrow: 1, order: 3, width: '100%', minWidth: '200px' }} className="desktop-middle-btn">
                     <button
                         onClick={() => { window.location.href = 'https://aditya-mixedquiz-mock.onrender.com/'; }}
                         style={{
@@ -161,8 +179,8 @@ const Book = () => {
                             alignItems: 'center',
                             gap: '8px',
                             padding: '8px 16px',
-                            backgroundColor: '#ffffff',
-                            color: '#1e293b',
+                            backgroundColor: darkMode ? '#1e293b' : '#ffffff',
+                            color: darkMode ? '#f8fafc' : '#1e293b',
                             border: '1px solid #cbd5e1',
                             borderRadius: '8px',
                             fontSize: '13px',
@@ -173,6 +191,30 @@ const Book = () => {
                         }}
                     >
                         <BookOpen size={16} /> Go To Mixed-Quiz
+                    </button>
+
+                    {/* Dark Mode Toggle Button */}
+                    <button
+                        onClick={toggleDarkMode}
+                        style={{
+                            display: 'flex',
+                            alignItems: 'center',
+                            gap: '6px',
+                            padding: '8px 12px',
+                            backgroundColor: darkMode ? '#1e293b' : '#ffffff',
+                            color: darkMode ? '#f8fafc' : '#1e293b',
+                            border: '1px solid #cbd5e1',
+                            borderRadius: '8px',
+                            fontSize: '13px',
+                            fontWeight: '600',
+                            cursor: 'pointer',
+                            whiteSpace: 'nowrap',
+                            boxShadow: '0 2px 4px rgba(0,0,0,0.05)'
+                        }}
+                        title="Toggle Dark/Light Mode"
+                    >
+                        {darkMode ? <Sun size={16} /> : <Moon size={16} />}
+                        <span>{darkMode ? 'Light' : 'Dark'}</span>
                     </button>
                 </div>
 
@@ -222,7 +264,7 @@ const Book = () => {
                         width: '100%',
                         maxWidth: '600px',
                         margin: '0 auto',
-                        backgroundColor: '#ffffff',
+                        backgroundColor: darkMode ? '#1e293b' : '#ffffff',
                         borderRadius: '50px',
                         padding: '6px 8px',
                         boxShadow: '0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06)',
@@ -243,6 +285,7 @@ const Book = () => {
                             padding: '10px 12px',
                             fontSize: '16px',
                             backgroundColor: 'transparent',
+                            color: darkMode ? '#f8fafc' : '#0f172a',
                             minWidth: '0'
                         }}
                     />
@@ -273,7 +316,7 @@ const Book = () => {
             {searchTerm.trim() !== '' && (
                 <div style={{ padding: '0 20px 40px', maxWidth: '1200px', margin: '0 auto' }}>
                     <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: '15px' }}>
-                        <h3 style={{ color: '#334155', margin: 0 }}>📝 Matching Questions</h3>
+                        <h3 style={{ color: darkMode ? '#f8fafc' : '#334155', margin: 0 }}>📝 Matching Questions</h3>
                         <span style={{ backgroundColor: '#2563eb', color: '#fff', padding: '4px 12px', borderRadius: '20px', fontSize: '14px', fontWeight: 'bold' }}>
                             Total Found: {searchedQuestions.length}
                         </span>
@@ -285,9 +328,9 @@ const Book = () => {
                                 <div
                                     key={sq.id}
                                     onClick={() => handleQuestionClick(sq)}
-                                    style={{ padding: '15px', backgroundColor: '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer' }}
+                                    style={{ padding: '15px', backgroundColor: darkMode ? '#1e293b' : '#fff', borderRadius: '8px', border: '1px solid #e2e8f0', boxShadow: '0 1px 3px rgba(0,0,0,0.1)', cursor: 'pointer' }}
                                 >
-                                    <p style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: '500', color: '#1e293b' }}>
+                                    <p style={{ margin: '0 0 10px 0', fontSize: '16px', fontWeight: '500', color: darkMode ? '#f8fafc' : '#1e293b' }}>
                                         {sq.questionIndex + 1}. {sq.questionText}
                                     </p>
 
@@ -300,19 +343,19 @@ const Book = () => {
                             ))}
                         </div>
                     ) : (
-                        <p style={{ color: '#64748b', fontSize: '15px', padding: '10px' }}>No questions found...</p>
+                        <p style={{ color: darkMode ? '#94a3b8' : '#64748b', fontSize: '15px', padding: '10px' }}>No questions found...</p>
                     )}
                 </div>
             )}
 
             <main className="books-grid">
                 {books.map((book) => (
-                    <div key={book._id} className="book-card">
+                    <div key={book._id} className="book-card" style={{ backgroundColor: darkMode ? '#1e293b' : '#fff', borderColor: darkMode ? '#334155' : '#e2e8f0' }}>
                         <div className="book-icon-box">
                             {book.photo ? <img src={book.photo.startsWith('data:') ? book.photo : `data:image/png;base64,${book.photo}`} alt={book.bookName} className="book-photo" /> : <LayoutGrid size={32} />}
                         </div>
                         <div className="book-text-details">
-                            <h3 className="book-name">{book.bookName}</h3>
+                            <h3 className="book-name" style={{ color: darkMode ? '#f8fafc' : '#0f172a' }}>{book.bookName}</h3>
                             <button onClick={() => navigate(`/book/${encodeURIComponent(book.bookName)}`)} className="open-link">Open Section ›</button>
                         </div>
                         <div className="action-buttons">
@@ -324,14 +367,14 @@ const Book = () => {
 
             {showModal && (
                 <div className="modal-overlay">
-                    <div className="modal-content">
+                    <div className="modal-content" style={{ backgroundColor: darkMode ? '#1e293b' : '#fff', color: darkMode ? '#f8fafc' : '#0f172a' }}>
                         <button onClick={() => setShowModal(false)} className="close-modal"><X size={24} /></button>
                         <h2 style={{ fontWeight: 900, fontSize: '28px', marginBottom: '8px' }}>Admin Login</h2>
                         <form onSubmit={handleSync}>
                             <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase' }}>Email</label>
-                            <input type="email" required className="modal-input" onChange={(e) => setCreds({ ...creds, email: e.target.value })} />
+                            <input type="email" required className="modal-input" onChange={(e) => setCreds({ ...creds, email: e.target.value })} style={{ backgroundColor: darkMode ? '#0f172a' : '#fff', color: darkMode ? '#f8fafc' : '#000' }} />
                             <label style={{ fontSize: '12px', fontWeight: 'bold', color: '#94a3b8', textTransform: 'uppercase', display: 'block', marginTop: '16px' }}>Password</label>
-                            <input type="password" required className="modal-input" onChange={(e) => setCreds({ ...creds, password: e.target.value })} />
+                            <input type="password" required className="modal-input" onChange={(e) => setCreds({ ...creds, password: e.target.value })} style={{ backgroundColor: darkMode ? '#0f172a' : '#fff', color: darkMode ? '#f8fafc' : '#000' }} />
                             <button type="submit" disabled={loading} className="submit-btn">{loading ? "Syncing..." : "Submit"}</button>
                         </form>
                     </div>
@@ -341,4 +384,4 @@ const Book = () => {
     );
 };
 
-export default Book; // (Note: keep original export default Book;)
+export default Book;

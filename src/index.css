@@ -11,3 +11,20 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+/* =========================================
+   EXTENSION-STYLE MAGIC DARK MODE
+   ========================================= */
+
+/* 1. यह एक लाइन आपके पूरे ऐप को एक्सटेंशन की तरह डार्क कर देगी */
+body.dark-mode {
+    /* सफेद को डार्क बनाएगा, और लाल/हरे/ब्लू रंगों को सुरक्षित रखेगा! */
+    filter: invert(0.92) hue-rotate(180deg) !important;
+}
+
+/* 2. बुक कवर्स और फोटो (Images) 'नेगेटिव' या भूतिया न दिखें, इसलिए उन्हें वापस सीधा करना */
+body.dark-mode img,
+body.dark-mode video,
+body.dark-mode iframe {
+    filter: invert(1) hue-rotate(180deg) !important;
+}
